@@ -13,14 +13,17 @@ public class Main {
                 new TypeReference<List<PitStopEntry>>() {}
         );
 
-        if (pitStops != null) {
-            for (PitStopEntry entry : pitStops) {
-                System.out.println("Driver #" + entry.getDriverNumber() +
-                        ", Lap " + entry.getLapNumber() +
-                        ", Duration: " + entry.getPitDuration() + "s");
-            }
-        } else {
-            System.out.println("Nie udało się wczytać danych.");
-        }
+//        if (pitStops != null) {
+//            for (PitStopEntry entry : pitStops) {
+//                System.out.println("Driver #" + entry.getDriverNumber() +
+//                        ", Lap " + entry.getLapNumber() +
+//                        ", Duration: " + entry.getPitDuration() + "s");
+//            }
+//        } else {
+//            System.out.println("Nie udało się wczytać danych.");
+//        }
+
+        LongestPitstop longestPitstop = new LongestPitstop();
+        longestPitstop.printLongest(pitStops);
     }
 }
