@@ -1,27 +1,26 @@
 package src;
 
-import java.io.IOException;
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
+import com.fasterxml.jackson.core.type.TypeReference;
+
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        PitstopCounter counter = new PitstopCounter();
-        try {
-            // Pobierz listę pitstopów
-            List<Pitstop> pitstops = counter.getPitstops("pitstopy.json");
-            int liczbaPitstopow = pitstops.size();
+        String path = "pitstops-data.json"; // podaj prawidłową ścieżkę do pliku
 
-            // Pobierz datę pierwszego pitstopa i sformatuj ją
-            String date = pitstops.get(0).getDate();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            String formattedDate = OffsetDateTime.parse(date).format(formatter);
+        List<PitStopEntry> pitStops = JsonReader.readJsonListFromFile(
+                path,
+                new TypeReference<List<PitStopEntry>>() {}
+        );
 
-            // Wyświetl wynik
-            System.out.println("Liczba pitstopów w wyścigu z dnia: " + formattedDate + " wyniosła " + liczbaPitstopow);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (pitStops != null) {
+            for (PitStopEntry entry : pitStops) {
+                System.out.println("Driver #" + entry.getDriverNumber() +
+                        ", Lap " + entry.getLapNumber() +
+                        ", Duration: " + entry.getPitDuration() + "s");
+            }
+        } else {
+            System.out.println("Nie udało się wczytać danych.");
         }
     }
 }
